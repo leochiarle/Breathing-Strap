@@ -32,4 +32,5 @@ void draw() {
     drawGraph("ECG", ecg_history, 20, 150, width - 40, 200);
     drawGraph("Respiration", rr_history, 20, 400, width - 40, 200);
     drawZoneGraph("Cardio zone (HR per second)", 20, 650, width - 40, 150);
+    drawMeditationIndicator(650, 40);
 }
