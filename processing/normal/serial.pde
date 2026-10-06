@@ -16,10 +16,10 @@ void serialEvent(Serial p) {
     line = trim(line);
     println("serial: '" + line + "'");
     if (line.equals("!") || line.length() == 0) return;
-    if (line.startsWith("->")) return;   // "-> Status: ..." text, ignore
+    if (line.startsWith("->")) return;
     if (line.startsWith("Analog Reading = ")) {
         float r = float(line.substring(17));
-        onSample(lastEcg, r);   // resp arrives right after ecg, so send both
+        onSample(lastEcg, r);
     } else {
         lastEcg = float(line);
     }
