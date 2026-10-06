@@ -12,6 +12,7 @@ void onSample(float e, float r) {
     calculateRpm(r);
     calculateBreath(r);
     updateBaseline();
+    updateZones();
 }
 
 void mockSamples() {
