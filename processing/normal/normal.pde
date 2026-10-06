@@ -24,7 +24,7 @@ void draw() {
     text("ecg: " + ecg + " resp: " + resp, 20, 30);
     text("Heart rate: " + bpm, 20, 50);
     text("Respiration rate: " + rpm, 20, 70);
-    text("Inhale: " + inhaleMs + " ms   Exhale: " + exhaleMs + " ms", 20, 90);
+    text("Inhale: " + inhaleMs + " ms   Exhale: " + exhaleMs + " ms   Ratio 1 : " + (inhaleMs > 0 ? nf(exhaleMs / (float) inhaleMs, 0, 1) : "-"), 20, 90);
     text(baselineText(), 20, 110);
     String zoneText = baselineDone ? zoneNames[zoneOf(bpm)] : "(after baseline)";
     text("Age: " + ageStr + " (type to change)   Max HR: " + maxHr + "   Zone: " + zoneText, 20, 130);
