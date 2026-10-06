@@ -1,17 +1,12 @@
 import processing.serial.*;
 
+String PORT_NAME = "/dev/cu.usbserial-0001";
 Serial port;
 
 void setupSerial() {
     printArray(Serial.list());
-    for (String name : Serial.list()) {
-        if (name.contains("usb")) {
-            port = new Serial(this, name, 115200);
-            port.bufferUntil('\n');
-            return;
-        }
-    }
-    println("No USB serial port found. Set mock = true or plug in the board.");
+    port = new Serial(this, PORT_NAME, 115200);
+    port.bufferUntil('\n');
 }
 
 void serialEvent(Serial p) {
