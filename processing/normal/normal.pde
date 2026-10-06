@@ -8,6 +8,7 @@ void setup() {
 
 void keyPressed() {
     if (key == 'b') startBaseline();
+    if (key == 'h') holdBreath = !holdBreath;
     if (key == 'f') setMode("Fitness");
     if (key == 's') setMode("Stress");
     if (key == 'm') setMode("Meditation");
@@ -35,4 +36,5 @@ void draw() {
     drawMeditationIndicator(650, 40);
     drawStressIndicator(650, 40);
     drawZoneStats(420, 14);
+    drawApnea();
 }
