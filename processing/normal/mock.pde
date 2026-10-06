@@ -3,6 +3,8 @@ int lastSampleMs = 0;
 float ecg, resp;
 
 void onSample(float e, float r) {
+    e = smooth(ecgWindow, e, 3);
+    r = smooth(respWindow, r, 10);
     ecg = e;
     resp = r;
 
