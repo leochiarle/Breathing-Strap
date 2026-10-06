@@ -8,6 +8,9 @@ void setup() {
 
 void keyPressed() {
     if (key == 'b') startBaseline();
+    if (key == 'f') setMode("Fitness");
+    if (key == 's') setMode("Stress");
+    if (key == 'm') setMode("Meditation");
     if (key >= '0' && key <= '9' && ageStr.length() < 3) ageStr += key;
     if (key == BACKSPACE && ageStr.length() > 0) ageStr = ageStr.substring(0, ageStr.length() - 1);
     updateAge();
@@ -17,6 +20,7 @@ void draw() {
     if (mock) mockSamples();
     background(255);
     fill(0);
+    text("Mode: " + mode + " (f = fitness, s = stress, m = meditation)", 20, 14);
     text("ecg: " + ecg + " resp: " + resp, 20, 30);
     text("Heart rate: " + bpm, 20, 50);
     text("Respiration rate: " + rpm, 20, 70);

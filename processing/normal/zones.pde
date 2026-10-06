@@ -1,10 +1,9 @@
 String ageStr = "20";
-int maxHr = 200;   // 220 - age
-Queue<Float> hrHistory = new ArrayDeque<Float>();   // one HR reading per second
+int maxHr = 200;
+Queue<Float> hrHistory = new ArrayDeque<Float>();
 int lastZoneSampleMs = 0;
-int HISTORY_LEN = 300;   // 5 minutes
+int HISTORY_LEN = 300;
 
-// below 60% of max, 60-70, 70-80, 80-90, 90+
 color[] zoneColors = {#4FC3F7, #66BB6A, #FFEE58, #FFA726, #EF5350};
 String[] zoneNames = {"Very light", "Light", "Moderate", "Hard", "Maximum"};
 
@@ -22,7 +21,6 @@ void updateAge() {
     maxHr = max(220 - age, 1);
 }
 
-// call once per sample; stores HR once a second
 void updateZones() {
     if (millis() - lastZoneSampleMs < 1000) return;
     lastZoneSampleMs = millis();
@@ -40,9 +38,9 @@ void drawZoneGraph(String title, float x, float y, float w, float h) {
     noStroke();
     int i = 0;
     for (float hr : hrHistory) {
-        float barH = min(hr / maxHr * h, h);   // bar height = HR as a fraction of max
+        float barH = min(hr / maxHr * h, h);
         fill(zoneColors[zoneOf(hr)]);
-        rect(x + i * 3, y + h - barH, 3, barH);   // each second is a 3 px wide bar
+        rect(x + i * 3, y + h - barH, 3, barH);
         i++;
     }
 }
