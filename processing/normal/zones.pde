@@ -4,18 +4,17 @@ Queue<Float> hrHistory = new ArrayDeque<Float>();   // one HR reading per second
 int lastZoneSampleMs = 0;
 int HISTORY_LEN = 300;   // 5 minutes
 
-// zone 0 = below 50% of max, then 50-60, 60-70, 70-80, 80-90, 90+
-color[] zoneColors = {#9E9E9E, #4FC3F7, #66BB6A, #FFEE58, #FFA726, #EF5350};
-String[] zoneNames = {"Resting", "Very light", "Light", "Moderate", "Hard", "Maximum"};
+// below 60% of max, 60-70, 70-80, 80-90, 90+
+color[] zoneColors = {#4FC3F7, #66BB6A, #FFEE58, #FFA726, #EF5350};
+String[] zoneNames = {"Very light", "Light", "Moderate", "Hard", "Maximum"};
 
 int zoneOf(float hr) {
     float pct = hr / maxHr * 100;
-    if (pct < 50) return 0;
-    if (pct < 60) return 1;
-    if (pct < 70) return 2;
-    if (pct < 80) return 3;
-    if (pct < 90) return 4;
-    return 5;
+    if (pct < 60) return 0;
+    if (pct < 70) return 1;
+    if (pct < 80) return 2;
+    if (pct < 90) return 3;
+    return 4;
 }
 
 void updateAge() {
