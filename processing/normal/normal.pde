@@ -12,6 +12,7 @@ void draw() {
     text("ecg: " + ecg + " resp: " + resp, 20, 30);
     text("Heart rate: " + bpm, 20, 50);
     text("Respiration rate: " + rpm, 20, 70);
+    text("Inhale: " + inhaleMs + " ms   Exhale: " + exhaleMs + " ms", 20, 90);
 
     drawGraph("ECG", ecg_history, 20, 100, width - 40, 200);
     drawGraph("Respiration", rr_history, 20, 350, width - 40, 200);

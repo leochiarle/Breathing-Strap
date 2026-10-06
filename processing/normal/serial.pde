@@ -13,6 +13,7 @@ void serialEvent(Serial p) {
     String line = p.readStringUntil('\n');
     if (line == null) return;
     line = trim(line);
+    println("serial: '" + line + "'");
     if (line.equals("!") || line.length() == 0) return;
     onSample(float(line), 512);
 }

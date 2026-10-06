@@ -10,6 +10,7 @@ void onSample(float e, float r) {
     push_rr_value(r);
     calculateBpm(e);
     calculateRpm(r);
+    calculateBreath(r);
 }
 
 void mockSamples() {
