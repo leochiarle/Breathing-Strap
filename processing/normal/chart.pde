@@ -17,9 +17,12 @@ void push_rr_value(Float value) {
     rr_history.add(value);
 }
 
-void drawGraph(Queue<Float> data, float x, float y, float w, float h) {
+void drawGraph(String title, Queue<Float> data, float x, float y, float w, float h) {
+    fill(0);
+    text(title, x, y - 8);
     stroke(0);
     noFill();
+    rect(x, y, w, h);
     float prevX = 0, prevY = 0;
     int i = 0;
     for (float v : data) {
