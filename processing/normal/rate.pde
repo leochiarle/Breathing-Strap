@@ -32,16 +32,16 @@ int lastRiseMs = 0;
 int lastFallMs = 0;
 int inhaleMs = 0;
 int exhaleMs = 0;
-float prevResp = 512;
+float prevBreath = 512;
 
 void calculateBreath(float resp) {
     int now = millis();
-    if (prevResp < 512 && resp >= 512) {
+    if (prevBreath < 512 && resp >= 512) {
         if (lastFallMs > 0) exhaleMs = now - lastFallMs;
         lastRiseMs = now;
-    } else if (prevResp >= 512 && resp < 512) {
+    } else if (prevBreath >= 512 && resp < 512) {
         if (lastRiseMs > 0) inhaleMs = now - lastRiseMs;
         lastFallMs = now;
     }
-    prevResp = resp;
+    prevBreath = resp;
 }
