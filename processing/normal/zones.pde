@@ -25,6 +25,7 @@ void updateZones() {
     if (millis() - lastZoneSampleMs < 1000) return;
     lastZoneSampleMs = millis();
     hrHistory.add(bpm);
+    updateZoneStats();
     if (hrHistory.size() > HISTORY_LEN) hrHistory.poll();
 }
 

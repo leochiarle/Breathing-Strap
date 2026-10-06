@@ -34,4 +34,5 @@ void draw() {
     drawZoneGraph("Cardio zone (HR per second)", 20, 650, width - 40, 150);
     drawMeditationIndicator(650, 40);
     drawStressIndicator(650, 40);
+    drawZoneStats(420, 14);
 }
