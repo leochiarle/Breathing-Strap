@@ -1,12 +1,13 @@
 import processing.serial.*;
 
-String PORT_NAME = "/dev/cu.usbmodem123456781";
+String PORT_NAME = "/dev/ttyACM0";
+int baudrate = 115200;
 Serial port;
-float lastEcg = 512;
+String[] items = new String[2];
 
 void setupSerial() {
     printArray(Serial.list());
-    port = new Serial(this, PORT_NAME, 115200);
+    port = new Serial(this, PORT_NAME, baudrate);
     port.bufferUntil('\n');
 }
 
@@ -15,12 +16,12 @@ void serialEvent(Serial p) {
     if (line == null) return;
     line = trim(line);
     println("serial: '" + line + "'");
-    if (line.equals("!") || line.length() == 0) return;
-    if (line.startsWith("->")) return;
-    if (line.startsWith("Analog Reading = ")) {
-        float r = float(line.substring(17));
-        onSample(lastEcg, r);
-    } else {
-        lastEcg = float(line);
+    
+    items = split(line, ','); 
+    
+    if (!items[0].equals("!")){
+      onSample(float(items[0]), float(items[1]));
+    }else{
+      onSample(float(0), float(items[1]));
     }
 }

@@ -1,8 +1,7 @@
 String ageStr = "20";
 int maxHr = 200;
-Queue<Float> hrHistory = new ArrayDeque<Float>();
+Float[] hr_history = new Float[BUFFER_SIZE];
 int lastZoneSampleMs = 0;
-int HISTORY_LEN = 300;
 
 color[] zoneColors = {#4FC3F7, #66BB6A, #FFEE58, #FFA726, #EF5350};
 String[] zoneNames = {"Very light", "Light", "Moderate", "Hard", "Maximum"};
@@ -21,15 +20,23 @@ void updateAge() {
     maxHr = max(220 - age, 1);
 }
 
-void updateZones() {
-    if (millis() - lastZoneSampleMs < 1000) return;
-    lastZoneSampleMs = millis();
-    hrHistory.add(bpm);
-    updateZoneStats();
-    if (hrHistory.size() > HISTORY_LEN) hrHistory.poll();
+void pushZoneValue(Float[] q, float value) {
+    for (int i = 0; i < BUFFER_SIZE - 1; i++) {
+      q[i] = q[i + 1];
+    }
+    q[BUFFER_SIZE - 1] = value;
 }
 
-void drawZoneGraph(String title, float x, float y, float w, float h) {
+void updateZones() {
+    //println("update zone: " + bpm);
+    //println("lastZoneSampleMs: " + lastZoneSampleMs);
+    //println("millis(): " + millis());
+    if (millis() - lastZoneSampleMs < 1000) return;
+    lastZoneSampleMs = millis();
+    pushZoneValue(hr_history, bpm);
+}
+
+void drawZoneGraph(String title, Float[] data, float x, float y, float w, float h) {
     fill(0);
     text(title, x, y - 8);
     noFill();
@@ -37,11 +44,11 @@ void drawZoneGraph(String title, float x, float y, float w, float h) {
     rect(x, y, w, h);
 
     noStroke();
-    int i = 0;
-    for (float hr : hrHistory) {
+    float barW = w / data.length;
+    for (int i = 0; i < data.length; i++) {
+        float hr = data[i];
         float barH = min(hr / maxHr * h, h);
         fill(zoneColors[zoneOf(hr)]);
-        rect(x + i * 3, y + h - barH, 3, barH);
-        i++;
+        rect(x + i * barW, y + h - barH, barW, barH);
     }
 }
