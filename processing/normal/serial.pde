@@ -1,6 +1,6 @@
 import processing.serial.*;
 
-String PORT_NAME = "/dev/cu.usbserial-0001";
+String PORT_NAME = "/dev/cu.usbmodem123456781";
 Serial port;
 float lastEcg = 512;
 
