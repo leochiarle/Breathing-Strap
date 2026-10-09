@@ -23,7 +23,7 @@ void pushValue(Float[] q, float value) {
     q[BUFFER_SIZE - 1] = value;
 }
 
-void drawGraph(String title, Float[] data, float x, float y, float w, float h) {
+void drawGraph(String title, Float[] data, float x, float y, float w, float h, float yMax) {
     fill(0);
     text(title, x, y - 8);
     stroke(0);
@@ -33,7 +33,7 @@ void drawGraph(String title, Float[] data, float x, float y, float w, float h) {
     beginShape();
     for (int i = 0; i < data.length; i++) {
         float px = x + map(i, 0, BUFFER_SIZE - 1, 0, w);
-        float py = y + h - map(data[i], 0, 1023, 0, h);
+        float py = y + h - map(constrain(data[i], 0, yMax), 0, yMax, 0, h);
         vertex(px, py);
     }
     endShape();
