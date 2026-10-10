@@ -31,8 +31,8 @@ void draw() {
     drawGraph("ECG", ecg_history, 65, 150, width - 85, 200, 1023);
     drawAxes(60, 150, width - 80, 200, "Time (s)", "ECG", 0, span, 150, 1023);
     
-    drawGraph("Respiration", rr_history, 65, 400, width - 85, 200, 150);
-    drawAxes(60, 400, width - 80, 200, "Time (s)", "FSR", 0, span, 0, 150);
+    drawGraph("Respiration", rr_history, 65, 400, width - 85, 200, 400);
+    drawAxes(60, 400, width - 80, 200, "Time (s)", "FSR", 0, span, 0, 400);
     
     drawZoneGraph("Cardio zone", hr_history, 65, 650, width - 85, 150);
     drawAxes(60, 650, width - 80, 150, "Time (s)", "Heart rate (bpm)", 0, span, 0, maxHr);
