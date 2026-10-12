@@ -1,6 +1,6 @@
 import processing.serial.*;
 
-String PORT_NAME = "/dev/ttyACM0";
+String PORT_NAME = "/dev/cu.usbmodem123456781";
 int baudrate = 115200;
 Serial port;
 String[] items = new String[2];
@@ -16,9 +16,9 @@ void serialEvent(Serial p) {
     if (line == null) return;
     line = trim(line);
     println("serial: '" + line + "'");
-    
-    items = split(line, ','); 
-    
+
+    items = split(line, ',');
+
     if (!items[0].equals("!")){
       onSample(float(items[0]), float(items[1]));
     }else{
