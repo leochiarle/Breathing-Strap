@@ -73,3 +73,31 @@ void drawAxes(float x, float y, float w, float h, String xLabel, String yLabel, 
     textAlign(LEFT, BASELINE);
     textSize(12);
 }
+
+void drawModePanel() {
+    fill(0);
+    if (mode.equals("Fitness")) {
+      for (int i = 0; i < 5; i++) {
+        String line = zoneNames[i] + ": " + zoneN[i] + " s";
+          if (zoneInh[i] == 0) {
+              line += "-";
+          } else {
+              line += ", RR change " + nf(zoneRr[i] - restingRr, 0, 1)
+                    + ", inhale " + (zoneInh[i] / 1000.0) + " s"
+                    + ", exhale " + (zoneExh[i] / 1000.0) + " s";
+          }
+          text(line, 520, 14 + i * 18);
+      }
+    } else if (mode.equals("Stress")) {
+        text("State: " + stressState(), 520, 14);
+    } else {
+        if (badBreaths >= 3) {
+            fill(255, 0, 0);
+            text("WARNING: breathing pattern lost", 520, 14);
+        } else {
+            text("Breathing pattern OK", 520, 14);
+        }
+        fill(0);
+        text("Bad breaths in a row: " + badBreaths, 520, 32);
+    }
+}

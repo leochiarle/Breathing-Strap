@@ -36,6 +36,8 @@ void draw() {
     
     drawZoneGraph("Cardio zone", hr_history, 65, 650, width - 85, 150);
     drawAxes(60, 650, width - 80, 150, "Time (s)", "Heart rate (bpm)", 0, span, 0, maxHr);
+    
+    drawModePanel();
 
 }
 

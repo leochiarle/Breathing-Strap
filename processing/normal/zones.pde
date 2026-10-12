@@ -3,7 +3,7 @@ int maxHr = 200;
 Float[] hr_history = new Float[BUFFER_SIZE];
 int lastZoneSampleMs = 0;
 
-color[] zoneColors = {#4FC3F7, #66BB6A, #FFEE58, #FFA726, #EF5350};
+color[] zoneColors = {#bbc1c4, #4FC3F7, #66BB6A, #FFA726, #EF5350};
 String[] zoneNames = {"Very light", "Light", "Moderate", "Hard", "Maximum"};
 
 int zoneOf(float hr) {
@@ -27,15 +27,6 @@ void pushZoneValue(Float[] q, float value) {
     q[BUFFER_SIZE - 1] = value;
 }
 
-void updateZones() {
-    //println("update zone: " + bpm);
-    //println("lastZoneSampleMs: " + lastZoneSampleMs);
-    //println("millis(): " + millis());
-    if (millis() - lastZoneSampleMs < 1000) return;
-    lastZoneSampleMs = millis();
-    pushZoneValue(hr_history, bpm);
-}
-
 void drawZoneGraph(String title, Float[] data, float x, float y, float w, float h) {
     fill(0);
     text(title, x, y - 8);
@@ -51,4 +42,23 @@ void drawZoneGraph(String title, Float[] data, float x, float y, float w, float 
         fill(zoneColors[zoneOf(hr)]);
         rect(x + i * barW, y + h - barH, barW, barH);
     }
+}
+
+int[] zoneN = new int[5];         // seconds spent in each zone
+float[] zoneInh = new float[5];   // total inhale time (ms) in each zone
+float[] zoneExh = new float[5];   // total exhale time (ms) in each zone
+float[] zoneRr = new float[5];    // last respiratory rate seen in each zone
+
+void resetZoneStats() {
+    for (int i = 0; i < 5; i++) {
+        zoneN[i] = 0;
+        zoneInh[i] = zoneExh[i] = zoneRr[i] = 0;
+    }
+}
+
+void updateZones() {
+    if (millis() - lastZoneSampleMs < 1000) return;
+    lastZoneSampleMs = millis();
+    pushZoneValue(hr_history, bpm);
+    if (baselineDone && bpm > 0) zoneN[zoneOf(bpm)]++;   // one more second in this zone
 }

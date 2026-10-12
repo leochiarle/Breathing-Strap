@@ -44,20 +44,34 @@ void calculateRpm(float resp) {
     prevResp = resp;
 }
 
-int lastRiseMs = 0;
-int lastFallMs = 0;
+boolean inhaling = false;   // true while the signal is above the threshold
+int lastRiseMs = 0;         // when the last inhale started
+int lastFallMs = 0;         // when the last exhale started
 int inhaleMs = 0;
 int exhaleMs = 0;
-float prevBreath = 512;
 
 void calculateBreath(float resp) {
     int now = millis();
-    if (prevBreath < 512 && resp >= 512) {
-        if (lastFallMs > 0) exhaleMs = now - lastFallMs;
+
+    if (!inhaling && resp <= 0) {        // inhale starts
+        inhaling = true;
+        if (lastRiseMs > 0) rpm = 60000.0 / (now - lastRiseMs);   // time between two inhales
+        if (lastFallMs > 0) {
+            exhaleMs = now - lastFallMs;                // the exhale that just ended
+            if (baselineDone && bpm > 0) zoneExh[zoneOf(bpm)] += exhaleMs;
+            onBreathDone();
+        }
         lastRiseMs = now;
-    } else if (prevBreath >= 512 && resp < 512) {
-        if (lastRiseMs > 0) inhaleMs = now - lastRiseMs;
+
+    } else if (inhaling && resp > 0) {   // exhale starts
+        inhaling = false;
+        if (lastRiseMs > 0) {
+            inhaleMs = now - lastRiseMs;                // the inhale that just ended
+            if (baselineDone && bpm > 0) {
+                zoneInh[zoneOf(bpm)] += inhaleMs;
+                zoneRr[zoneOf(bpm)] = rpm;
+            }
+        }
         lastFallMs = now;
     }
-    prevBreath = resp;
 }
