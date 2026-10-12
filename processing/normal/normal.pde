@@ -11,6 +11,7 @@ void keyPressed() {
     if (key == 'f') setMode("Fitness");
     if (key == 's') setMode("Stress");
     if (key == 'm') setMode("Meditation");
+    if (key == 'r') showSummary = !showSummary;
     if (key >= '0' && key <= '9' && ageStr.length() < 3) ageStr += key;
     if (key == BACKSPACE && ageStr.length() > 0) ageStr = ageStr.substring(0, ageStr.length() - 1); updateAge();
 }
@@ -38,6 +39,8 @@ void draw() {
     drawAxes(60, 650, width - 80, 150, "Time (s)", "Heart rate (bpm)", 0, span, 0, maxHr);
     
     drawModePanel();
+    
+    if (showSummary) drawSummary();
 
 }
 

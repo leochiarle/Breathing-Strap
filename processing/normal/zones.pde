@@ -48,17 +48,38 @@ int[] zoneN = new int[5];         // seconds spent in each zone
 float[] zoneInh = new float[5];   // total inhale time (ms) in each zone
 float[] zoneExh = new float[5];   // total exhale time (ms) in each zone
 float[] zoneRr = new float[5];    // last respiratory rate seen in each zone
-
+/*
 void resetZoneStats() {
     for (int i = 0; i < 5; i++) {
         zoneN[i] = 0;
         zoneInh[i] = zoneExh[i] = zoneRr[i] = 0;
     }
 }
-
+*/
 void updateZones() {
     if (millis() - lastZoneSampleMs < 1000) return;
     lastZoneSampleMs = millis();
     pushZoneValue(hr_history, bpm);
-    if (baselineDone && bpm > 0) zoneN[zoneOf(bpm)]++;   // one more second in this zone
+    if (baselineDone && bpm > 0) {
+        zoneN[zoneOf(bpm)]++;
+        hrTotal += bpm;
+        peakHr = max(peakHr, bpm);
+    
+        int age = 220 - maxHr;   // age comes from the typed age
+        float perMin = (-55.0969 + 0.6309 * bpm + 0.1988 * WEIGHT_KG + 0.2017 * age) / 4.184;
+        kcal += max(perMin, 0) / 60;   // this second's share of the per-minute value
+    }
+}
+
+float hrTotal = 0;       // sum of heart rate readings (one per second)
+float peakHr = 0;        // highest heart rate seen
+float kcal = 0;          // estimated calories burned
+float WEIGHT_KG = 70;    // assumed weight, change it to yours
+
+void resetZoneStats() {
+    for (int i = 0; i < 5; i++) {
+        zoneN[i] = 0;
+        zoneInh[i] = zoneExh[i] = zoneRr[i] = 0;
+    }
+    hrTotal = peakHr = kcal = 0;
 }
